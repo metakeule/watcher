@@ -8,8 +8,12 @@ import (
 
 type zenityBin string
 
-func (ø zenityBin) Notify(msg string) {
+func (ø zenityBin) Error(msg string) {
 	Exec(string(ø), "--info", fmt.Sprintf("--text=%s", msg))
+}
+
+func (ø zenityBin) Success(msg string) {
+	//Exec(string(ø), "--info", fmt.Sprintf("--text=%s", msg))
 }
 
 func New() zenityBin {

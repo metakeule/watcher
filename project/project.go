@@ -25,8 +25,9 @@ func compilersForAllApps(baseDir string) (cs []Compiler) {
 
 func Compilers(execTests bool, baseDir string) (compilers []Compiler) {
 	mainFile := path.Join(baseDir, "main.go")
+	pidFile := path.Join(baseDir, "pid")
 	compilers = []Compiler{
-		NewGoCompiler(mainFile, baseDir, execTests, []string{"static", "less", "typescript"}),
+		NewGoCompiler(mainFile, pidFile, baseDir, execTests, []string{"static", "less", "typescript"}),
 	}
 	compilers = append(compilers, compilersForAllApps(baseDir)...)
 	return

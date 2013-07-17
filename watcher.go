@@ -42,7 +42,9 @@ func (ø *ProjectWatcher) SendMessages() {
 			log.Printf("handle %s with %s\n", file, comp.Name())
 			out, err := comp.Compile(file)
 			if err != nil {
-				ø.Notifier.Notify(out)
+				ø.Notifier.Error(out)
+			} else {
+				ø.Notifier.Success("compiled " + file)
 			}
 			delete(ø.Pool, comp)
 		}
@@ -58,20 +60,6 @@ func (ø *ProjectWatcher) HandleFile(path string) {
 		if c.Affected(path) {
 			ø.Pool[c] = path
 
-		}
-		c.Unlock()
-	}
-}
-
-func (ø *ProjectWatcher) WatchDir(path string) {
-	for _, c := range ø.Compilers {
-		c.Lock()
-		if c.Affected(path) {
-			c.Unlock()
-			ø.Lock()
-			ø.Watcher.Watch(path)
-			ø.Unlock()
-			return
 		}
 		c.Unlock()
 	}
@@ -93,7 +81,7 @@ func (ø *ProjectWatcher) Run() (err error) {
 		for {
 			select {
 			case ev := <-ø.Watcher.Event:
-				//log.Println("event:", ev)
+				//log.Println("event: (create:%v)", ev, ev.IsCreate())
 
 				what := ""
 				handleIt := true
@@ -101,23 +89,22 @@ func (ø *ProjectWatcher) Run() (err error) {
 				case ev.IsCreate():
 					what = "created"
 					d, err := os.Stat(ev.Name)
-					if err != nil {
+					if err == nil {
 						if d.IsDir() {
-							ø.WatchDir(ev.Name)
+							ø.Lock()
+							log.Println("added ", ev.Name, "- start watching")
+							ø.Watcher.Watch(ev.Name)
+							ø.Unlock()
 						}
 					}
 					handleIt = false
 				case ev.IsDelete():
 					handleIt = false
 					what = "deleted"
-					d, err := os.Stat(ev.Name)
-					if err != nil {
-						if d.IsDir() {
-							ø.Lock()
-							ø.Watcher.RemoveWatch(ev.Name)
-							ø.Unlock()
-						}
-					}
+					ø.Lock()
+					ø.Watcher.RemoveWatch(ev.Name)
+					ø.Unlock()
+
 				case ev.IsModify():
 					what = "modified"
 				case ev.IsRename():
@@ -153,7 +140,7 @@ func (ø *ProjectWatcher) Run() (err error) {
 
        FSN_ALL = FSN_MODIFY | FSN_DELETE | FSN_RENAME | FSN_CREATE
 */
-//watcher.WatchFlags(path string, flags uint32) error {
+//watcher.WatchFlags(ev.Name string, flags uint32) error {
 
 // watcher.RemoveWatch(path string)
 

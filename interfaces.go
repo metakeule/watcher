@@ -9,10 +9,10 @@ type (
 		// directories to watch
 		Dirs() []string
 		Affected(path string) bool
-		WatchDir(path string)
 	}
 
 	Notifier interface {
-		Notify(msg string)
+		Error(msg string)
+		Success(msg string)
 	}
 )
