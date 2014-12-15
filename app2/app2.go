@@ -1,4 +1,4 @@
-package app
+package app2
 
 import (
 	"github.com/metakeule/watcher"
@@ -13,18 +13,18 @@ func Compilers(baseDir string, app string) []watcher.Compiler {
 	appDir := path.Join(baseDir, "app", app)
 	staticDir := path.Join(baseDir, "static")
 
-	lessDir := path.Join(appDir, "less")
+	lessDir := path.Join(appDir, "compiler", "css")
 	lessOutput := path.Join(staticDir, "css", app, "all.css")
 	lessMain := path.Join(lessDir, "main.less")
 
-	typeScriptDir := path.Join(appDir, "typescript")
+	typeScriptDir := path.Join(appDir, "compiler", "js")
 	typeScriptOutput := path.Join(staticDir, "js", app)
 
-	classDir := path.Join(appDir, "class")
+	classDir := path.Join(appDir, "compiler", "class")
 	classLessOutput := path.Join(lessDir, "class.less")
 	classTsOutput := path.Join(typeScriptDir, "class.ts")
 
-	idDir := path.Join(appDir, "id")
+	idDir := path.Join(appDir, "compiler", "id")
 	idLessOutput := path.Join(lessDir, "id.less")
 	idTsOutput := path.Join(typeScriptDir, "id.ts")
 

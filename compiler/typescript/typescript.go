@@ -28,8 +28,9 @@ func New(dir string, outputDir string, ignore []string, options ...string) watch
 		log.Fatal("you do not have the typescript compiler installed. please run 'npm install -g typescript'")
 	}
 	if len(options) == 0 {
-		// recommended options 
-		options = []string{"--out", outputDir, "-c", "--disallowbool", "--disallowbool", "--sourcemap", "--module", "amd"}
+		// recommended options
+		//options = []string{"--out", outputDir, "-c", "--disallowbool", "--disallowbool", "--sourcemap", "--module", "amd"}
+		options = []string{"--outDir", outputDir, "--sourcemap", "--module", "amd"}
 	}
 	return &typescript{watcher.NewCompiler(dir, "typescript (tsc)", ".ts", bin, ignore, options...), outputDir}
 }

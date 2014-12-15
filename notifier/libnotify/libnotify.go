@@ -8,11 +8,14 @@ import (
 type notifyBin string
 
 func (ø notifyBin) Error(msg string) {
-	Exec(string(ø), "ERROR", msg)
+	log.Printf("ERROR: %s", msg)
+	Exec(string(ø), "--icon=dialog-error", "--expire-time=1004000", "ERROR", msg)
 }
 
 func (ø notifyBin) Success(msg string) {
-	Exec(string(ø), "Ok", msg)
+	//Exec(string(ø), "--icon=dialog-information", "--expire-time=2500", "Ok", msg)
+	//Exec(string(ø), "--expire-time=2500", "Ok", msg)
+	Exec(string(ø), "--expire-time=2000", msg)
 }
 
 func New() notifyBin {

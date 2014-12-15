@@ -9,6 +9,7 @@ import (
 type zenityBin string
 
 func (ø zenityBin) Error(msg string) {
+	log.Printf("ERROR: %s", msg)
 	Exec(string(ø), "--info", fmt.Sprintf("--text=%s", msg))
 }
 

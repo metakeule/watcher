@@ -1,8 +1,8 @@
 package watcher
 
 import (
-	"code.google.com/p/go.exp/fsnotify"
-	"log"
+	"gopkg.in/fsnotify.v1"
+	// "log"
 	"os"
 	"sync"
 	"time"
@@ -21,7 +21,8 @@ type ProjectWatcher struct {
 func New(notifier Notifier, compilers ...Compiler) (ø *ProjectWatcher) {
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
-		log.Fatalf("can't create watcher: %s\n", err.Error())
+		panic("can't create watcher: " + err.Error())
+		// log.Fatalf("can't create watcher: %s\n", err.Error())
 	}
 	return &ProjectWatcher{
 		Mutex:     &sync.Mutex{},
@@ -39,7 +40,7 @@ func (ø *ProjectWatcher) SendMessages() {
 	for {
 		ø.Lock()
 		for comp, file := range ø.Pool {
-			log.Printf("handle %s with %s\n", file, comp.Name())
+			// log.Printf("handle %s with %s\n", file, comp.Name())
 			out, err := comp.Compile(file)
 			if err != nil {
 				ø.Notifier.Error(out)
@@ -68,7 +69,7 @@ func (ø *ProjectWatcher) HandleFile(path string) {
 func (ø *ProjectWatcher) Run() (err error) {
 	for _, c := range ø.Compilers {
 		for _, d := range c.Dirs() {
-			err = ø.Watcher.Watch(d)
+			err = ø.Watcher.Add(d)
 			if err != nil {
 				return
 			}
@@ -80,39 +81,45 @@ func (ø *ProjectWatcher) Run() (err error) {
 	go func() {
 		for {
 			select {
-			case ev := <-ø.Watcher.Event:
+			case ev := <-ø.Watcher.Events:
 				//log.Println("event: (create:%v)", ev, ev.IsCreate())
 
 				what := ""
 				handleIt := true
-				switch {
-				case ev.IsCreate():
+
+				if ev.Op&fsnotify.Create == fsnotify.Create {
+
 					what = "created"
 					d, err := os.Stat(ev.Name)
 					if err == nil {
 						if d.IsDir() {
 							ø.Lock()
-							log.Println("added ", ev.Name, "- start watching")
-							ø.Watcher.Watch(ev.Name)
+							//ø.Notifier.Success("added " + ev.Name + "- start watching")
+							// log.Println("added ", ev.Name, "- start watching")
+							ø.Watcher.Add(ev.Name)
 							ø.Unlock()
 						}
 					}
-					handleIt = false
-				case ev.IsDelete():
+					handleIt = true
+				}
+				if ev.Op&fsnotify.Remove == fsnotify.Remove {
 					handleIt = false
 					what = "deleted"
 					ø.Lock()
-					ø.Watcher.RemoveWatch(ev.Name)
+					ø.Watcher.Remove(ev.Name)
 					ø.Unlock()
-
-				case ev.IsModify():
+				}
+				if ev.Op&fsnotify.Write == fsnotify.Write {
+					// case ev.IsModify():
 					what = "modified"
-				case ev.IsRename():
+				}
+				if ev.Op&fsnotify.Rename == fsnotify.Rename {
+					// case ev.IsRename():
 					handleIt = false
 					what = "renamed"
 				}
 				_ = what
-				//log.Println("file: ", ev.Name, " ", what)
+				// log.Println("file: ", ev.Name, " ", what)
 
 				if handleIt {
 					ø.Lock()
@@ -120,8 +127,9 @@ func (ø *ProjectWatcher) Run() (err error) {
 					ø.Unlock()
 				}
 
-			case err := <-ø.Watcher.Error:
-				log.Println("watcher error:", err)
+			case err := <-ø.Watcher.Errors:
+				ø.Notifier.Error("watcher error: " + err.Error())
+				// log.Println("watcher error:", err)
 			}
 		}
 		ø.Lock()

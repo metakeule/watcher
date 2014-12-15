@@ -45,7 +45,7 @@ func New(name string, dir string, output string, var_ string) (ø *tsVarsCompile
 	ø.name = name
 	ø.Bin, err = Which("tsvars")
 	if err != nil {
-		log.Fatal("you do not have cssvars installed. run go get github.com/metakeule/goh4/css/tsvars")
+		log.Fatal("you do not have tsvars installed. run go get github.com/metakeule/goh4/css/tsvars")
 	}
 
 	/*

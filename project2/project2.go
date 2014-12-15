@@ -1,8 +1,8 @@
-package project
+package project2
 
 import (
 	. "github.com/metakeule/watcher"
-	"github.com/metakeule/watcher/app"
+	"github.com/metakeule/watcher/app2"
 	. "github.com/metakeule/watcher/compiler/goc"
 	"io/ioutil"
 	"log"
@@ -17,7 +17,7 @@ func compilersForAllApps(baseDir string) (cs []Compiler) {
 	cs = []Compiler{}
 	for _, dir := range dirs {
 		if dir.IsDir() == true {
-			cs = append(cs, app.Compilers(baseDir, dir.Name())...)
+			cs = append(cs, app2.Compilers(baseDir, dir.Name())...)
 		}
 	}
 	return
