@@ -1,20 +1,21 @@
 package project
 
 import (
-	. "gopkg.in/metakeule/watcher.v1"
-	"gopkg.in/metakeule/watcher.v1/app"
-	. "gopkg.in/metakeule/watcher.v1/compiler/goc"
 	"io/ioutil"
 	"log"
 	"path"
+
+	"gopkg.in/metakeule/watcher.v1"
+	"gopkg.in/metakeule/watcher.v1/app"
+	"gopkg.in/metakeule/watcher.v1/compiler/goc"
 )
 
-func compilersForAllApps(baseDir string) (cs []Compiler) {
+func compilersForAllApps(baseDir string) (cs []watcher.Compiler) {
 	dirs, e := ioutil.ReadDir(path.Join(baseDir, "app"))
 	if e != nil {
 		log.Fatalf("could not read dir %s: %s", baseDir, e.Error())
 	}
-	cs = []Compiler{}
+	cs = []watcher.Compiler{}
 	for _, dir := range dirs {
 		if dir.IsDir() == true {
 			cs = append(cs, app.Compilers(baseDir, dir.Name())...)
@@ -23,12 +24,12 @@ func compilersForAllApps(baseDir string) (cs []Compiler) {
 	return
 }
 
-func Compilers(execTests bool, baseDir string) (compilers []Compiler) {
+func Compilers(execTests bool, baseDir string) (compilers []watcher.Compiler) {
 	runDir := path.Join(baseDir, "run")
 	mainFile := path.Join(runDir, "main.go")
 	// pidFile := path.Join(runDir, "pid")
-	compilers = []Compiler{
-		NewGoCompiler(mainFile, baseDir, execTests, []string{"static", "less", "typescript"}),
+	compilers = []watcher.Compiler{
+		goc.NewGoCompiler(mainFile, baseDir, execTests, []string{"static", "less", "typescript"}),
 	}
 	compilers = append(compilers, compilersForAllApps(baseDir)...)
 	return
