@@ -1,7 +1,7 @@
 package stripgopath
 
 import (
-	"github.com/metakeule/watcher"
+	"gopkg.in/metakeule/watcher.v1"
 	"log"
 	"os"
 	"path"

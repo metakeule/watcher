@@ -1,8 +1,8 @@
 package less
 
 import (
-	"github.com/metakeule/watcher"
-	. "github.com/metakeule/watcher/helpers"
+	"gopkg.in/metakeule/watcher.v1"
+	. "gopkg.in/metakeule/watcher.v1/helpers"
 	"log"
 )
 

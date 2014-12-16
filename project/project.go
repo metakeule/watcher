@@ -1,9 +1,9 @@
 package project
 
 import (
-	. "github.com/metakeule/watcher"
-	"github.com/metakeule/watcher/app"
-	. "github.com/metakeule/watcher/compiler/goc"
+	. "gopkg.in/metakeule/watcher.v1"
+	"gopkg.in/metakeule/watcher.v1/app"
+	. "gopkg.in/metakeule/watcher.v1/compiler/goc"
 	"io/ioutil"
 	"log"
 	"path"

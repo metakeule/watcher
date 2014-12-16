@@ -2,8 +2,8 @@ package goc
 
 import (
 	// "fmt"
-	. "github.com/metakeule/watcher"
-	. "github.com/metakeule/watcher/helpers"
+	. "gopkg.in/metakeule/watcher.v1"
+	. "gopkg.in/metakeule/watcher.v1/helpers"
 	// "io/ioutil"
 	"log"
 	"os"

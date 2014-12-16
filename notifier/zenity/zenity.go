@@ -2,7 +2,7 @@ package zenity
 
 import (
 	"fmt"
-	. "github.com/metakeule/watcher/helpers"
+	. "gopkg.in/metakeule/watcher.v1/helpers"
 	"log"
 )
 

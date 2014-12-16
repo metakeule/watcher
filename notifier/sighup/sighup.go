@@ -3,7 +3,7 @@ package sighup
 import (
 	"fmt"
 	"gopkg.in/metakeule/fmtdate.v1"
-	"github.com/metakeule/watcher"
+	"gopkg.in/metakeule/watcher.v1"
 	"io/ioutil"
 	"os"
 	"os/exec"

@@ -1,8 +1,8 @@
 package cssvars
 
 import (
-	"github.com/metakeule/goh4"
-	. "github.com/metakeule/watcher/helpers"
+	"gopkg.in/metakeule/goh4.v5"
+	. "gopkg.in/metakeule/watcher.v1/helpers"
 	"log"
 	"os"
 	"path"

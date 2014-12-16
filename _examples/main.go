@@ -1,10 +1,10 @@
 package main
 
 import (
-	. "github.com/metakeule/watcher"
-	"github.com/metakeule/watcher/notifier/stripgopath"
-	"github.com/metakeule/watcher/notifier/zenity"
-	. "github.com/metakeule/watcher/project"
+	. "gopkg.in/metakeule/watcher.v1"
+	"gopkg.in/metakeule/watcher.v1/notifier/stripgopath"
+	"gopkg.in/metakeule/watcher.v1/notifier/zenity"
+	. "gopkg.in/metakeule/watcher.v1/project"
 )
 
 func main() {

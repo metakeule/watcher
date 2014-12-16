@@ -1,11 +1,11 @@
 package app
 
 import (
-	"github.com/metakeule/watcher"
-	"github.com/metakeule/watcher/compiler/cssvars"
-	"github.com/metakeule/watcher/compiler/less"
-	"github.com/metakeule/watcher/compiler/tsvars"
-	"github.com/metakeule/watcher/compiler/typescript"
+	"gopkg.in/metakeule/watcher.v1"
+	"gopkg.in/metakeule/watcher.v1/compiler/cssvars"
+	"gopkg.in/metakeule/watcher.v1/compiler/less"
+	"gopkg.in/metakeule/watcher.v1/compiler/tsvars"
+	"gopkg.in/metakeule/watcher.v1/compiler/typescript"
 	"path"
 )
 

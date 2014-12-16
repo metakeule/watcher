@@ -1,7 +1,7 @@
 package wrapper
 
 import (
-	"github.com/metakeule/watcher"
+	"gopkg.in/metakeule/watcher.v1"
 )
 
 type wrapper struct {

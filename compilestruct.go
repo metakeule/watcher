@@ -1,7 +1,7 @@
 package watcher
 
 import (
-	. "github.com/metakeule/watcher/helpers"
+	. "gopkg.in/metakeule/watcher.v1/helpers"
 	"log"
 	"path/filepath"
 	"sync"
